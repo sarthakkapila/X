@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use, useCallback } from "react";
 import { FaU, FaXTwitter } from "react-icons/fa6";
 import { GoHomeFill } from "react-icons/go";
 import { FaSearch } from "react-icons/fa";
@@ -8,11 +8,13 @@ import { FaBookmark } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
 import { CiCircleMore } from "react-icons/ci";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
 interface sidebarItems {
   icon: React.ReactNode;
   text: string;
 }
+
 const sidebarItems: sidebarItems[] = [
   {
     icon: <GoHomeFill />,
@@ -49,6 +51,10 @@ const sidebarItems: sidebarItems[] = [
 ];
 
 export default function Home() {
+
+  const handleLoginWithGoogle = useCallback((cred: CredentialResponse) => {
+    
+  }, []);
   return (
     <div className="grid grid-cols-12 h-screen w-screen">
       <div className="col-span-3 flex items-start justify-center p-8">
@@ -68,7 +74,12 @@ export default function Home() {
       </div>
       </div>
       <div className="col-span-6 border-x-[1px] border-white"></div>
-      <div className="col-span-3"></div>
+      <div className="col-span-3 p-5">
+        <div className="p-6 bg-slate-700 rounded-lg">
+          <h1>New to Twitter?</h1>
+        <GoogleLogin onSuccess={(cred) => console.log(cred)}/>
+        </div>
+      </div>
     </div>
   );
 }
