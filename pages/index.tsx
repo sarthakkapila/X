@@ -53,7 +53,7 @@ const sidebarItems: sidebarItems[] = [
 export default function Home() {
 
   const handleLoginWithGoogle = useCallback((cred: CredentialResponse) => {
-    
+
   }, []);
   return (
     <div className="grid grid-cols-12 h-screen w-screen">
@@ -76,7 +76,7 @@ export default function Home() {
       <div className="col-span-6 border-x-[1px] border-white"></div>
       <div className="col-span-3 p-5">
         <div className="p-6 bg-slate-700 rounded-lg">
-          <h1>New to Twitter?</h1>
+          <h1>New to X?</h1>
         <GoogleLogin onSuccess={(cred) => console.log(cred)}/>
         </div>
       </div>
