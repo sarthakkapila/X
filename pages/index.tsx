@@ -9,6 +9,9 @@ import { FaUser } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
 import { CiCircleMore } from "react-icons/ci";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { toast } from "react-hot-toast";
+import { graphQLClient } from "@/clients/api";
+import { verifyGoogleTokenQuery } from "@/graphql/query/user";
 
 interface sidebarItems {
   icon: React.ReactNode;
@@ -52,8 +55,20 @@ const sidebarItems: sidebarItems[] = [
 
 export default function Home() {
 
-  const handleLoginWithGoogle = useCallback((cred: CredentialResponse) => {
+  const handleLoginWithGoogle = useCallback(async (cred: CredentialResponse) => {
+    const googleToken = cred.credential;
+    if(!googleToken) return toast.error("Google login failed");
 
+    const {verifyGoogleToken} = await graphQLClient.request(
+      verifyGoogleTokenQuery, 
+      {token: googleToken}
+      );
+      
+      toast.success('Verified Sucessfully!')
+      console.log(verifyGoogleToken)
+
+      if(verifyGoogleToken) 
+      window.localStorage.setItem("__X_token", verifyGoogleToken)
   }, []);
   return (
     <div className="grid grid-cols-12 h-screen w-screen">
@@ -77,7 +92,7 @@ export default function Home() {
       <div className="col-span-3 p-5">
         <div className="p-6 bg-slate-700 rounded-lg">
           <h1>New to X?</h1>
-        <GoogleLogin onSuccess={(cred) => console.log(cred)}/>
+        <GoogleLogin onSuccess={(handleLoginWithGoogle)}/>
         </div>
       </div>
     </div>
