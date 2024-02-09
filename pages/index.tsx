@@ -70,6 +70,8 @@ export default function Home() {
       if(verifyGoogleToken) 
       window.localStorage.setItem("__X_token", verifyGoogleToken)
   }, []);
+
+
   return (
     <div className="grid grid-cols-12 h-screen w-screen">
       <div className="col-span-3 flex items-start justify-center p-8">
