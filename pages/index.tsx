@@ -12,6 +12,8 @@ import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { toast } from "react-hot-toast";
 import { graphQLClient } from "@/clients/api";
 import { verifyGoogleTokenQuery } from "@/graphql/query/user";
+import { useCurrentUser } from "@/hooks/user";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 
 interface sidebarItems {
   icon: React.ReactNode;
@@ -54,6 +56,8 @@ const sidebarItems: sidebarItems[] = [
 ];
 
 export default function Home() {
+  const { user } = useCurrentUser();
+  const queryClient =  useQueryClient();
 
   const handleLoginWithGoogle = useCallback(async (cred: CredentialResponse) => {
     const googleToken = cred.credential;
@@ -69,7 +73,9 @@ export default function Home() {
 
       if(verifyGoogleToken) 
       window.localStorage.setItem("__X_token", verifyGoogleToken)
-  }, []);
+
+      await queryClient.invalidateQueries(["current-user"]);
+  }, [queryClient]);
 
 
   return (
@@ -92,10 +98,12 @@ export default function Home() {
       </div>
       <div className="col-span-6 border-x-[1px] border-white"></div>
       <div className="col-span-3 p-5">
+        {!user && (
         <div className="p-6 bg-slate-700 rounded-lg">
           <h1>New to X?</h1>
         <GoogleLogin onSuccess={(handleLoginWithGoogle)}/>
         </div>
+        )}
       </div>
     </div>
   );
