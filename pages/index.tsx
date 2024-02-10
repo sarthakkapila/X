@@ -80,7 +80,7 @@ export default function Home() {
 
   return (
     <div className="grid grid-cols-12 h-screen w-screen">
-      <div className="col-span-3 flex items-start justify-center p-8">
+      <div className="col-span-3 flex items-start justify-center p-8 relative">
         <FaXTwitter className="text-4xl h-fit hover:bg-gray-900 rounded-full cursor-pointer transition-all"/>
         <div className="flex flex-col gap-4 mt-10">
         <ul className="mt-10">
@@ -95,6 +95,16 @@ export default function Home() {
           <button className="bg-blue-400 text-white rounded-full p-2 text-lg w-full">Tweet</button>
         </div>
       </div>
+            <div className="mt-5 absolute bottom-5 flex gap-2 items-center bg-slate-800 px-2 py-2 rounded-full">
+              {user && user.profileimageURL && <img
+              src={user.profileimageURL} 
+              alt="profile" width={50} height={50} 
+              className="rounded-full" />}
+              <h3 className="text-xl">{
+              !user?.FirstName && user?.email.split("@")[0] || user?.FirstName
+              }</h3>
+              <h3 className="text-xl">{user?.__typename}</h3>
+            </div>
       </div>
       <div className="col-span-6 border-x-[1px] border-white"></div>
       <div className="col-span-3 p-5">
