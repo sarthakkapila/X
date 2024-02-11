@@ -13,8 +13,9 @@ import { toast } from "react-hot-toast";
 import { graphQLClient } from "@/clients/api";
 import { verifyGoogleTokenQuery } from "@/graphql/query/user";
 import { useCurrentUser } from "@/hooks/user";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import FeedCard from "@/components/FeedCard";
+import { BiImageAlt } from "react-icons/bi";
 
 interface sidebarItems {
   icon: React.ReactNode;
@@ -78,7 +79,6 @@ export default function Home() {
       await queryClient.invalidateQueries(["current-user"]);
   }, [queryClient]);
 
-
   return (
     <div className="grid grid-cols-12 h-screen w-screen">
       <div className="col-span-3 flex items-start justify-center p-8 relative">
@@ -94,10 +94,9 @@ export default function Home() {
         </ul>
         <div className="mt-5">
           <button className="bg-blue-400 text-white rounded-full p-2 text-lg w-full">
-            Tweet
+            Post
             </button>
         </div>
-        
       </div>
             <div className="mt-5 absolute bottom-5 flex gap-2 items-center bg-slate-800 px-2 py-2 rounded-full">
               {user && user.profileimageURL && <img
@@ -111,6 +110,24 @@ export default function Home() {
             </div>
       </div>
       <div className="col-span-5 border-r-[1px] border-l-[1px] h-screen overflow-scroll border-gray-600">
+      <div className="col-span-11">
+        <textarea
+        className="w-full bg-transparent text-xl px-5 py-5 border-b border-slate-800"
+        placeholder="Whats Happening?"
+        rows={1}
+        style={{ resize: "none" }}/>
+      <div className="flex items-center justify-between w-full gap-2 py-2">
+      <button
+        className="text-xl rounded-full p-2 hover:bg-gray-800 cursor-pointer"
+      >
+        <BiImageAlt />
+      </button>
+      <button
+        className="bg-blue-400 text-white px-4 py-2 rounded-full"
+      >
+        Post
+      </button>
+      </div>
           <FeedCard />
           <FeedCard />
           <FeedCard />
@@ -122,6 +139,7 @@ export default function Home() {
           <FeedCard />
           <FeedCard />
         </div>     
+        </div>
       <div className="col-span-3 p-5">
         {!user && (
         <div className="p-6 bg-slate-700 rounded-lg">
