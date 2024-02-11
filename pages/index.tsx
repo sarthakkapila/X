@@ -14,6 +14,7 @@ import { graphQLClient } from "@/clients/api";
 import { verifyGoogleTokenQuery } from "@/graphql/query/user";
 import { useCurrentUser } from "@/hooks/user";
 import { QueryClient, useQueryClient } from "@tanstack/react-query";
+import FeedCard from "@/components/FeedCard";
 
 interface sidebarItems {
   icon: React.ReactNode;
@@ -92,8 +93,11 @@ export default function Home() {
           ))}
         </ul>
         <div className="mt-5">
-          <button className="bg-blue-400 text-white rounded-full p-2 text-lg w-full">Tweet</button>
+          <button className="bg-blue-400 text-white rounded-full p-2 text-lg w-full">
+            Tweet
+            </button>
         </div>
+        
       </div>
             <div className="mt-5 absolute bottom-5 flex gap-2 items-center bg-slate-800 px-2 py-2 rounded-full">
               {user && user.profileimageURL && <img
@@ -106,7 +110,18 @@ export default function Home() {
               <h3 className="text-xl">{user?.__typename}</h3>
             </div>
       </div>
-      <div className="col-span-6 border-x-[1px] border-white"></div>
+      <div className="col-span-5 border-r-[1px] border-l-[1px] h-screen overflow-scroll border-gray-600">
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+        </div>     
       <div className="col-span-3 p-5">
         {!user && (
         <div className="p-6 bg-slate-700 rounded-lg">
