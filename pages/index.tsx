@@ -104,7 +104,7 @@ export default function Home() {
               src={user.profileimageURL} 
               alt="profile" width={50} height={50} 
               className="rounded-full" />}
-              <h3 className="text-xl">{
+              <h3 className="text-l">{
               !user?.FirstName && user?.email.split("@")[0] || user?.FirstName
               }</h3>
               <h3 className="text-xl">{user?.__typename}</h3>
