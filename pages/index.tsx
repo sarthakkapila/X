@@ -16,6 +16,8 @@ import { useCurrentUser } from "@/hooks/user";
 import { useQueryClient } from "@tanstack/react-query";
 import FeedCard from "@/components/FeedCard";
 import { BiImageAlt } from "react-icons/bi";
+import { useGetAllTweets } from "@/hooks/tweets";
+import { Tweet } from "@/gql/graphql";
 
 interface sidebarItems {
   icon: React.ReactNode;
@@ -60,6 +62,15 @@ const sidebarItems: sidebarItems[] = [
 export default function Home() {
   const { user } = useCurrentUser();
   const queryClient =  useQueryClient();
+  const { tweets = [] } = useGetAllTweets();
+
+  const handleSelectImage = useCallback(() => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+  }, []);
+
 
   const handleLoginWithGoogle = useCallback(async (cred: CredentialResponse) => {
     const googleToken = cred.credential;
@@ -114,13 +125,15 @@ export default function Home() {
         <textarea
         className="w-full bg-transparent text-xl px-5 py-5 border-b border-slate-800"
         placeholder="Whats Happening?"
-        rows={1}
+        rows={2}
         style={{ resize: "none" }}/>
       <div className="flex items-center justify-between w-full gap-2 py-2">
       <button
         className="text-xl rounded-full p-2 hover:bg-gray-800 cursor-pointer"
       >
-        <BiImageAlt />
+        <BiImageAlt
+        className="text-xl"
+        onClick={handleSelectImage} />
       </button>
       <button
         className="bg-blue-400 text-white px-4 py-2 rounded-full"
@@ -128,16 +141,9 @@ export default function Home() {
         Post
       </button>
       </div>
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
-          <FeedCard />
+      { 
+       tweets?.map((tweet => <FeedCard key={tweet?.id} data={tweet as Tweet} />)
+      )}
         </div>     
         </div>
       <div className="col-span-3 p-5">

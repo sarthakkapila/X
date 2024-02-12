@@ -3,9 +3,16 @@ import { BiMessageRounded, BiUpload } from "react-icons/bi";
 import { FaRetweet } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useCurrentUser } from "@/hooks/user";
+import { Tweet } from "@/gql/graphql";
+import { useGetAllTweets } from "@/hooks/tweets";
 
-const FeedCard: React.FC = () => {
+interface FeedCardProps {
+  data: Tweet;
+}
+
+const FeedCard: React.FC<FeedCardProps>= (props) => {
     const { user } = useCurrentUser();
+    const { data } = useGetAllTweets();
   return (
     <div className="border border-r-0 border-l-0 border-b-0 border-gray-600 p-5 hover:bg-slate-900 transition-all cursor-pointer">
       <div className="grid grid-cols-12 gap-3">
@@ -21,8 +28,7 @@ const FeedCard: React.FC = () => {
               !user?.FirstName && user?.email.split("@")[0] || user?.FirstName
               }</h5>
           <p>
-            Hey losers! I am going to become a tech billionaire, I will dominate the industry in the 
-            coming year, watch me do it. 🥷🚀
+            {props.data.content}
           </p>
           <div className="flex justify-between mt-5 text-xl items-center p-2 w-[90%]">
             <div>
